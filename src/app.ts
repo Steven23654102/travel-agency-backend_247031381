@@ -3,6 +3,7 @@ import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
 import dotenv from 'dotenv';
 import tourRouter from './controllers/tourController';
+import appointmentRouter from './controllers/appointmentsController';   
 import * as koaSwagger from 'koa2-swagger-ui';
 import YAML from 'yamljs';
 import path from 'path';
@@ -31,6 +32,8 @@ app.use(
 app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 app.use(tourRouter.routes()).use(tourRouter.allowedMethods());
+app.use(appointmentRouter.routes()).use(appointmentRouter.allowedMethods()); 
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

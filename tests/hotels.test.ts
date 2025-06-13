@@ -22,4 +22,19 @@ describe('Hotel API 測試', () => {
     expect(res.status).toBe(201);
     expect(res.body).toEqual(expect.objectContaining(newHotel));
   });
+
+  it('PUT /api/v1/hotels/:id ➜ 應回傳更新後資料', async () => {
+  const updatedHotel = { name: 'Hotel Z' };
+  const res = await request(server)
+    .put('/api/v1/hotels/1')
+    .send(updatedHotel);
+  expect(res.status).toBe(200);
+  expect(res.body).toEqual({ id: 1, ...updatedHotel });
+});
+
+it('DELETE /api/v1/hotels/:id ➜ 應成功刪除', async () => {
+  const res = await request(server).delete('/api/v1/hotels/1');
+  expect(res.status).toBe(204);
+});
+
 });

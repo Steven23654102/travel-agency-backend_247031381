@@ -17,4 +17,15 @@ router.post('/', async (ctx) => {
   ctx.body = newHotel;
 });
 
+router.put('/:id', async (ctx) => {
+  const id = Number(ctx.params.id);
+  const updatedHotel = ctx.request.body as { name: string };
+  ctx.body = { id, ...updatedHotel };
+});
+
+router.delete('/:id', async (ctx) => {
+  const id = Number(ctx.params.id);
+  ctx.status = 204;
+});
+
 export default router;

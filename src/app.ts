@@ -1,3 +1,4 @@
+// app.ts
 import Koa, { Context } from 'koa';
 import Router from 'koa-router';
 import bodyParser from 'koa-bodyparser';
@@ -7,6 +8,7 @@ import appointmentRouter from './controllers/appointmentsController';
 import * as koaSwagger from 'koa2-swagger-ui';
 import YAML from 'yamljs';
 import path from 'path';
+import hotelRouter from './controllers/hotelController';
 
 dotenv.config();
 
@@ -17,10 +19,8 @@ router.get('/', async (ctx: Context) => {
   ctx.body = 'API is running';
 });
 
-// 載入 Swagger 規格
+// Swagger
 const swaggerSpec = YAML.load(path.join(__dirname, '../docs/openapi.yaml'));
-
-// 加入 Swagger UI 中介軟體
 app.use(
   koaSwagger.koaSwagger({
     routePrefix: '/docs',
@@ -28,14 +28,11 @@ app.use(
   })
 );
 
-
+// Middlewares
 app.use(bodyParser());
 app.use(router.routes()).use(router.allowedMethods());
 app.use(tourRouter.routes()).use(tourRouter.allowedMethods());
-app.use(appointmentRouter.routes()).use(appointmentRouter.allowedMethods()); 
-
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+app.use(appointmentRouter.routes()).use(appointmentRouter.allowedMethods());
+app.use(hotelRouter.routes()).use(hotelRouter.allowedMethods());
+// 匯出 app 給測試使用
+export default app;

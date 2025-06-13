@@ -11,9 +11,23 @@ router.get('/', async (ctx: Context) => {
   ctx.body = appointments;
 });
 
+interface Appointment {
+  name_en: string;
+  name_zh?: string;
+  gender?: string;
+  dob?: string;
+  address?: string;
+  hkid?: string;
+  phone?: string;
+  email: string;
+  date?: string;
+  time?: string;
+  location?: string;
+}
 /** POST /api/appointments 建立新預約 */
 router.post('/', async (ctx: Context) => {
-  const data = ctx.request.body;
+  const data = ctx.request.body as Appointment;
+
 
   // 基本驗證
   if (!data?.name_en || !data?.email) {
